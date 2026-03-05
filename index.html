@@ -1,53 +1,266 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>My Launcher</title>
+  <title>Aarav’s Launcher</title>
+
   <style>
-    body{font-family:system-ui,Arial;background:#0f0f0f;color:#fff;margin:24px}
-    h1{margin:0 0 12px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-    button{height:56px;border:0;border-radius:14px;background:#2b2b2b;color:#fff;
-      font-size:16px;cursor:pointer}
-    button:hover{background:#3a3a3a}
-    .note{opacity:.7;margin-top:12px;font-size:13px}
+    :root{
+      --card: rgba(255,255,255,0.08);
+      --card2: rgba(255,255,255,0.12);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.7);
+      --shadow: rgba(0,0,0,0.45);
+      --radius: 18px;
+    }
+
+    *{ box-sizing: border-box; }
+
+    body{
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+
+      /* Dark blue -> black gradient */
+      background: radial-gradient(1200px 700px at 20% 10%, #0b2a66 0%, #071a3a 35%, #000000 80%);
+    }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 18px 48px;
+    }
+
+    header{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    h1{
+      font-size: 22px;
+      margin: 0;
+      letter-spacing: 0.2px;
+    }
+
+    #clock{
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .search{
+      margin: 14px 0 22px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search form{
+      width: min(720px, 100%);
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: 0 10px 25px var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .search input{
+      flex: 1;
+      height: 44px;
+      border: 0;
+      outline: none;
+      border-radius: 14px;
+      padding: 0 14px;
+      font-size: 16px;
+      color: var(--text);
+      background: rgba(0,0,0,0.35);
+    }
+
+    .search button{
+      height: 44px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 14px;
+      font-size: 15px;
+      cursor: pointer;
+      color: var(--text);
+      background: rgba(255,255,255,0.12);
+    }
+
+    .search button:hover{
+      background: rgba(255,255,255,0.18);
+    }
+
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .tile{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 14px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.10);
+      background: var(--card);
+      box-shadow: 0 10px 25px var(--shadow);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.08s ease, background 0.08s ease;
+    }
+
+    .tile:hover{
+      background: var(--card2);
+      transform: translateY(-1px);
+    }
+
+    .logo{
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.35);
+      overflow: hidden;
+      flex: 0 0 36px;
+    }
+
+    .logo img{
+      width: 22px;
+      height: 22px;
+      display: block;
+    }
+
+    .title{
+      text-align: left;
+      line-height: 1.1;
+    }
+
+    .title .name{
+      font-weight: 650;
+      font-size: 15px;
+    }
+
+    .title .hint{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .note{
+      margin-top: 14px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
   </style>
 </head>
+
 <body>
-  <h1>My Dashboard</h1>
+  <div class="wrap">
+    <header>
+      <h1>Epsonical Launchpad</h1>
+      <div id="clock">Loading IST…</div>
+    </header>
 
-  <div class="grid">
-    <!-- Deep links (open app if installed) -->
-    <button onclick="go('discord://','https://discord.com/app')">Discord</button>
-    <button onclick="go('spotify:','https://open.spotify.com')">Spotify</button>
-    <button onclick="go('whatsapp://','https://web.whatsapp.com')">WhatsApp</button>
-    <button onclick="go('steam://','https://store.steampowered.com')">Steam</button>
+    <!-- Google Search -->
+    <div class="search">
+      <form action="https://www.google.com/search" method="GET" target="_blank" autocomplete="off">
+        <input name="q" placeholder="Search Google…" />
+        <button type="submit">Search</button>
+      </form>
+    </div>
 
-    <!-- Normal links -->
-    <button onclick="openWeb('https://gmail.com')">Gmail</button>
-    <button onclick="openWeb('https://youtube.com')">YouTube</button>
-  </div>
+    <!-- App tiles -->
+    <div class="grid">
+      <div class="tile" onclick="openApp('discord://', 'https://discord.com/app')">
+        <div class="logo">
+          <img alt="Discord" src="https://cdn.simpleicons.org/discord/ffffff">
+        </div>
+        <div class="title">
+          <div class="name">Discord</div>
+          <div class="hint">Open app (fallback web)</div>
+        </div>
+      </div>
 
-  <div class="note">
-    Tip: If an app deep link is blocked or the app isn’t installed, it will open the web fallback.
+      <div class="tile" onclick="openApp('whatsapp://', 'https://web.whatsapp.com')">
+        <div class="logo">
+          <img alt="WhatsApp" src="https://cdn.simpleicons.org/whatsapp/ffffff">
+        </div>
+        <div class="title">
+          <div class="name">WhatsApp</div>
+          <div class="hint">Open app (fallback web)</div>
+        </div>
+      </div>
+
+      <div class="tile" onclick="openApp('spotify:', 'https://open.spotify.com')">
+        <div class="logo">
+          <img alt="Spotify" src="https://cdn.simpleicons.org/spotify/ffffff">
+        </div>
+        <div class="title">
+          <div class="name">Spotify</div>
+          <div class="hint">Open app (fallback web)</div>
+        </div>
+      </div>
+
+      <div class="tile" onclick="openApp('roblox://', 'https://www.roblox.com')">
+        <div class="logo">
+          <img alt="Roblox" src="https://cdn.simpleicons.org/roblox/ffffff">
+        </div>
+        <div class="title">
+          <div class="name">Roblox</div>
+          <div class="hint">Open app (fallback web)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      Deep links depend on the device/browser. If a deep link is blocked or the app isn’t installed, the web page opens.
+    </div>
   </div>
 
   <script>
-    function openWeb(url){
-      window.open(url, "_blank");
-    }
-
-    // tries to open app deep link, then falls back to web
-    function go(appLink, webFallback){
-      // Try app
+    // Open app deep link, then fallback to web.
+    function openApp(appLink, webLink){
+      // Try to open the installed app
       window.location.href = appLink;
 
-      // After a short moment, open fallback
+      // Fallback after a short delay
       setTimeout(() => {
-        window.open(webFallback, "_blank");
+        window.open(webLink, "_blank");
       }, 700);
     }
+
+    // IST Clock (Asia/Kolkata)
+    const clockEl = document.getElementById("clock");
+    const fmt = new Intl.DateTimeFormat("en-IN", {
+      timeZone: "Asia/Kolkata",
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true
+    });
+
+    function tick(){
+      clockEl.textContent = fmt.format(new Date()) + " (IST)";
+    }
+    tick();
+    setInterval(tick, 1000);
   </script>
 </body>
 </html>
